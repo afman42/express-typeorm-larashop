@@ -1,0 +1,137 @@
+<%- include('../templates/header_global.ejs', { title }) %>
+  <div class="row">
+    <div class="col-md-12">
+
+      <%- include('../message.ejs', {alert}) %>
+
+      <div class="row">
+          <div class="col-md-6">
+            <!-- <form
+             method="get" 
+            > -->
+
+            <div class="input-group">
+                <input type="text" class="form-control input-keyword" placeholder="Filter by title">
+                <div class="input-group-append">
+                  <input type="button" id="tombolKeyword" value="Filter" class="btn btn-primary">
+                </div>
+            </div>
+
+            <!-- </form> -->
+          </div>
+          <div class="col-md-6">
+            <ul class="nav nav-pills card-header-pills">
+              <li class="nav-item">
+                <a class="nav-link all-books" href="/book">All</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link publish-books" href="/book?status=publish">Publish</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link draft-books" href="/book?status=draft">Draft</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link trash-books" href="/book/trash">Trash</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      <hr class="my-3">
+
+      <div class="row mb-3">
+        <div class="col-md-12 text-right">
+          <a
+            href="/book/create"
+            class="btn btn-primary"
+          >Create book</a>
+        </div>
+      </div>
+
+      <table class="table table-bordered table-stripped">
+        <thead>
+          <tr>
+            <th><b>Cover</b></th>
+            <th><b>Title</b></th>
+            <th><b>Author</b></th>
+            <th><b>Status</b></th>
+            <th><b>Categories</b></th>
+            <th><b>Stock</b></th>
+            <th><b>Price</b></th>
+            <th><b>Action</b></th>
+          </tr>
+        </thead>
+        <tbody>
+            <% if(books.data.length > 0) { %>
+            <% books.data.forEach(v => { %>
+            <tr>
+              <td>
+               <% if(v.cover) { %>
+                  <img src="/public/images/<%= v.cover %>" width="96px"/>
+               <% } %>
+              </td>
+              <td><%= v.title %></td>
+              <td><%= v.author %></td>
+              <td>
+                <% if(v.status == "DRAFT") { %>
+                  <span class="badge bg-dark text-white"><%= v.status %></span>
+                <% } else { %>
+                  <span class="badge badge-success"><%= v.status %></span>
+                <% } %>
+              </td>
+              <td>
+                <ul class="pl-3">
+                <% v.categories.forEach(p => { %>
+                  <li><%= p.name %></li>
+                <% }) %>
+                </ul>
+              </td>
+              <td><%= v.stock %></td>
+              <td><%= v.price %></td>
+              <td>
+                  <a
+                   href="/book/edit/<%= v.id %>"
+                   class="btn btn-info btn-sm"
+                  > Edit </a>
+
+                  <form
+                    method="POST"
+                    class="d-inline"
+                    onsubmit="return confirm('Move book to trash?')"
+                    action="/book/destroy/<%= v.id %>?_method=DELETE"
+                  >
+                  
+                  <!-- <input 
+                    type="hidden" 
+                    value="DELETE"
+                    name="_method"> -->
+
+                  <input 
+                    type="submit" 
+                    value="Trash" 
+                    class="btn btn-danger btn-sm">
+
+                  </form>
+
+              </td>
+            </tr>
+        <% }) %>
+        <% } else { %>
+          <tr>
+            <td align="center" colspan="8">Data Not Found</td>
+          </tr>
+        <% } %>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="10"> 
+              <%= books.count %>
+              <!-- {{$books->appends(Request::all())->links()}} -->
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+<%- include('../templates/footer_global.ejs', { pathName, model: null }) %>

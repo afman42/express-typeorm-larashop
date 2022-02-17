@@ -1,0 +1,55 @@
+<% if(pathName == '/book' || pathName == '/book?status=publish' || pathName == '/book?status=draft' || pathName == '/book/trash') { %>
+    <script src="/public/js/index-book.js"></script>
+<% } %>
+
+<%= pathName %>
+<% if(pathName == '/book/create') { %>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+<script>
+$('#categories').select2({
+  ajax: {
+    url: 'http://localhost:3000/ajax/categories/search',
+    processResults: function(data){
+      return {
+        results: data.map(function(item){return {id: item.id, text: item.name} })
+      }
+    }
+  }
+});
+</script>
+<% } %>
+
+
+
+<% if(pathName == '/book/edit') { %>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+<script>
+$('#categories').select2({
+  ajax: {
+    url: 'http://localhost:3000/ajax/categories/search',
+    processResults: function(data){
+      return {
+        results: data.map(function(item){return {id: item.id, text: item.name} })
+      }
+    }
+  }
+});
+
+var categories = '<%= JSON.stringify(model.categories) %>' 
+let response = categories.replace(/&#34;/g, '"');
+var c = JSON.parse(response);
+// console.log(response)
+// console.log(c)
+    c.forEach(function(category){
+      var option = new Option(category.name, category.id, true, true);
+      $('#categories').append(option).trigger('change');
+    });
+</script>
+
+<% } %>

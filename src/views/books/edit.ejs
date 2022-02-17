@@ -1,0 +1,99 @@
+<%- include('../templates/header_global.ejs', { title }) %>
+
+
+<div class="row">
+  <div class="col-md-8">
+    
+     <% if(err != null) { %>
+     <div class="alert alert-danger"> 
+      <ul>
+      <% err.forEach(v => { %>
+        <li><%= v %></li>
+      <% }) %>
+      </ul>
+     </div>
+     <% } %>
+    <form
+      enctype="multipart/form-data"
+      method="POST"
+      action="/book/update/<%= model.id %>?_method=PUT"
+      class="p-3 shadow-sm bg-white"
+    >
+
+    <!-- <input type="hidden" name="_method" value="PUT"> -->
+
+    <label for="title">Title</label><br>
+    <input
+      type="text"
+      class="form-control"
+      value="<%= model.title %>"
+      name="title"
+      placeholder="Book title"
+    />
+    <br>
+
+    <label for="cover">Cover</label><br>
+    <small class="text-muted">Current cover</small><br>
+    <% if(model.cover) { %>
+      <img src="/public/images/<%= model.cover %>" width="96px"/>
+    <% } %>
+    <br><br>
+    <input 
+      type="file" 
+      class="form-control"
+      name="cover"
+    >
+    <small class="text-muted">Kosongkan jika tidak ingin mengubah cover</small>
+    <br><br>
+
+
+    <label for="slug">Slug</label><br>
+    <input 
+      type="text"
+      class="form-control"
+      value="<%= model.slug %>"
+      name="slug"
+      placeholder="enter-a-slug"
+    />
+    <br>
+
+    <label for="description">Description</label> <br>
+    <textarea name="description" id="description" class="form-control"><%= model.description %></textarea>
+    <br>
+
+    <label for="categories">Categories</label>
+    <select multiple class="form-control" name="categories[]" id="categories"></select>
+    <br>
+    <br>
+
+    <label for="stock">Stock</label><br>
+    <input type="text" class="form-control" placeholder="Stock" id="stock" name="stock" value="<%= model.stock %>">
+    <br>
+
+    <label for="author">Author</label>
+    <input placeholder="Author" value="<%= model.author %>" type="text" id="author" name="author" class="form-control">
+    <br>
+
+    <label for="publisher">Publisher</label><br>
+    <input class="form-control" type="text" placeholder="Publisher" name="publisher" id="publisher" value="<%= model.publisher %>">
+    <br>
+
+    <label for="price">Price</label><br>
+    <input type="text" class="form-control" name="price" placeholder="Price" id="price" value="<%= model.price %>">
+    <br>
+
+    <label for="">Status</label>
+    <select name="status" id="status" class="form-control">
+      <option <% model.status == 'PUBLISH' ? 'selected' : '' %> value="PUBLISH">PUBLISH</option>
+      <option <% model.status == 'DRAFT' ? 'selected' : '' %> value="DRAFT">DRAFT</option>
+    </select>
+    <br>
+    
+    <button class="btn btn-primary" value="PUBLISH">Update</button>
+
+    </form>
+  </div>
+</div>
+
+
+<%- include('../templates/footer_global.ejs', { pathName, model }) %>

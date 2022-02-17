@@ -1,0 +1,122 @@
+<%- include('../templates/header_global.ejs', { title }) %>
+
+  <div class="row">
+    <div class="col-md-12">
+      <%- include('../message.ejs', {alert}) %>
+      <div class="row">
+        <div class="col-md-6">
+            <!-- <form
+              action=""
+            > -->
+
+            <div class="input-group">
+                <input name="keyword" type="text" class="form-control input-keyword" placeholder="Filter by title">
+                <div class="input-group-append">
+                  <input type="submit" id="tombolKeyword" value="Filter" class="btn btn-primary">
+                </div>
+            </div>
+
+            <!-- </form> -->
+        </div>
+        <div class="col-md-6">
+            <ul class="nav nav-pills card-header-pills">
+              <li class="nav-item">
+                <a class="nav-link all-books" href="/book">All</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link publish-books" href="/book?status=publish">Publish</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link draft-books" href="/book?status=draft">Draft</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link trash-books" href="/book/trash">Trash</a>
+              </li>
+            </ul>
+        </div>
+      </div>
+  
+      <hr class="my-3">
+
+      <div class="row mb-3">
+        <div class="col-md-12 text-right">
+          <a
+            href="/book/create"
+            class="btn btn-primary"
+          >Create book</a>
+        </div>
+      </div>
+
+
+      <table class="table table-bordered table-stripped">
+        <thead>
+          <tr>
+            <th><b>Cover</b></th>
+            <th><b>Title</b></th>
+            <th><b>Author</b></th>
+            <th><b>Categories</b></th>
+            <th><b>Stock</b></th>
+            <th><b>Price</b></th>
+            <th><b>Action</b></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% model.data.forEach(v => { %>
+            <tr>
+              <td>
+                <% if(v.cover) { %>
+                  <img src="public/images/<%= v.cover %>" width="96px"/>
+                <% } %>
+              </td>
+              <td><%= v.title %></td>
+              <td><%= v.author %></td>
+              <td>
+                <ul class="pl-3">
+                <% v.categories.forEach(p => { %>
+                  <li><%= p.name %></li>  
+                <% }) %>
+                </ul>
+              </td>
+              <td><%= v.stock %></td>
+              <td><%= v.price %></td>
+              <td>
+                  <form 
+                    method="POST"
+                    action="/book/restore/<%= v.id %>"
+                    class="d-inline"
+                  >
+
+                    <!-- @csrf  -->
+
+                    <input type="submit" value="Restore" class="btn btn-success"/>
+                  </form>
+
+                  <form
+                    method="POST" 
+                    action="/book/permanent/<%= v.id %>?_method=DELETE"
+                    class="d-inline"
+                    onsubmit="return confirm('Delete this book permanently?')"
+                  >
+
+                  <!-- @csrf  -->
+                  <!-- <input type="hidden" name="_method" value="DELETE"> -->
+
+                  <input type="submit" value="Delete" class="btn btn-danger">
+                  </form>
+              </td>
+            </tr>
+          <!-- @endforeach -->
+          <% }) %>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="10">
+              <!-- {{$books->appends(Request::all())->links()}} -->
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+<%- include('../templates/footer_global.ejs', { pathName, model: null }) %>
