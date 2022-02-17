@@ -6,7 +6,8 @@ async function index(req: Request, res: Response) {
     const alertMessage = req.flash('alertMessage');
     const alertStatus = req.flash('alertStatus');
     const alert = { message: alertMessage, status: alertStatus }
-    let { status, keyword } = req.query as any 
+    let { status, keyword, page } = req.query as any 
+    let pages = typeof page !== 'undefined' ? parseInt(page) : 1;
     let books
     let pathName
     if (status == null) {
@@ -19,13 +20,15 @@ async function index(req: Request, res: Response) {
        pathName = RouteBook.DRAFT
     }
     if (status) {
-        books = await getBookWithCountQuery(keyword,status.toUpperCase(),null, null)
+        books = await getBookWithCountQuery(pages,keyword,status.toUpperCase())
     } else {
-        books = await getBookWithCountQuery(keyword,null,null,null)
+        books = await getBookWithCountQuery(pages,keyword,status)
     }
 
-    // console.log(books)
-    return res.render("books/index",{ books, pathName,alert, title: 'Book List' })
+    console.log(books)
+    console.log(pages)
+    console.log(typeof status !== 'undefined')
+    return res.render("books/index",{ books, status, keyword, pathName,alert, title: 'Book List' })
 }
 
 function create(req:Request, res: Response) {
@@ -131,31 +134,3 @@ export {
     restore,
     permanent
 }
-
-
-
-
-    // public function restore($id){
-    //     $book = \App\Book::withTrashed()->findOrFail($id);
-        
-    //     if($book->trashed()){
-    //         $book->restore();
-    //         return redirect()->route('books.trash')->with('status', 'Book successfully restored');
-    //     } else {
-    //         return redirect()->route('books.trash')->with('status', 'Book is not in trash');
-    //     }
-    // }
-
-    // public function deletePermanent($id){
-    //     $book = \App\Book::withTrashed()->findOrFail($id);
-      
-    //     if(!$book->trashed()){
-    //       return redirect()->route('books.trash')->with('status', 'Book is not in trash')->with('status_type', 'alert');
-    //     } else {
-    //       $book->categories()->detach();
-    //       $book->orders()->detach();
-    //       $book->forceDelete();
-      
-    //       return redirect()->route('books.trash')->with('status', 'Book permanently deleted!');
-    //     }
-    // }

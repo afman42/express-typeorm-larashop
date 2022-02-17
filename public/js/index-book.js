@@ -18,16 +18,16 @@ $(".input-keyword").on("input", function (e) {
   let s = $(this).val()
   $("#tombolKeyword").on("click", function (e) {
       if (params.get("status") == null) {
-        window.location.href = "/book?keyword=" + s;
+        window.location.href = "/book?keyword=" + s+ "&page=1";
       }
       if (params.get("status") == "publish") {
-        window.location.href = "/book?keyword=" + s + "&status=publish";
+        window.location.href = "/book?keyword=" + s + "&status=publish" + "&page=1";
       }
       if (params.get("status") == "draft") {
-        window.location.href = "/book?keyword=" + s + "&status=draft";
+        window.location.href = "/book?keyword=" + s + "&status=draft"+ "&page=1";
       }
       if (pathName == "/book/trash") {
-        window.location.href = "/book/trash?keyword=" + s;
+        window.location.href = "/book/trash?keyword=" + s+ "&page=1";
       }
   });
 
