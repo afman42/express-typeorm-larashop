@@ -1,0 +1,58 @@
+
+<%- include('../templates/header_global.ejs', { title }) %>
+  
+  <div class="col-md-8">
+    <% if(err != null) { %>
+    <div class="alert alert-danger"> 
+        <ul>
+    <% err.forEach(v => { %>
+        <li><%= v %></li>
+    <% }) %>
+        </ul>
+    </div>
+    <% } %>
+    <form 
+      action="/categories/update/<%= model.id %>?_method=PUT"
+      enctype="multipart/form-data"
+      method="POST"
+      class="bg-white shadow-sm p-3"
+      >
+      <!-- <input 
+        type="hidden" 
+        value="PUT" 
+        name="_method"> -->
+
+      <label>Category name</label> <br>
+      <input 
+        type="text" 
+        class="form-control" 
+        value="<%= model.name %>" 
+        name="name">
+      <br><br>
+
+      <label>Cateogry slug</label>
+      <input 
+        type="text" 
+        class="form-control" 
+        value="<%= model.slug %>"
+        name="slug">
+      <br><br>
+
+      <label>Category image</label><br>
+      <% if(model.image) { %>
+        <span>Current image</span><br>
+        <img src="/public/images/<%= model.image %>" width="120px">
+        <br><br>
+      <% } %>
+      <input 
+        type="file" 
+        class="form-control" 
+        name="image">
+      <small class="text-muted">Kosongkan jika tidak ingin mengubah gambar</small>
+      <br><br>
+
+      <input type="submit" class="btn btn-primary" value="Update">
+
+    </form>
+  </div>
+<%- include('../templates/footer_global.ejs', { pathName: null, model: null }) %>

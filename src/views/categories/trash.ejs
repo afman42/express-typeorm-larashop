@@ -1,0 +1,128 @@
+<%- include('../templates/header_global.ejs', { title }) %>
+
+  <div class="row">
+    <div class="col-md-6">
+      <!-- <form action="{{route('categories.index')}}"> -->
+
+        <div class="input-group">
+            <input 
+              type="text" 
+              class="form-control input-keyword" 
+              placeholder="Filter by category name"
+              value="<%= keyword %>"
+              name="name">
+              
+            <div class="input-group-append">
+              <input 
+                type="submit" 
+                id="tombolKeyword"
+                value="Filter" 
+                class="btn btn-primary">
+            </div>
+        </div>
+          
+      <!-- </form> -->
+    </div>
+
+    <div class="col-md-6">
+      <ul class="nav nav-pills card-header-pills">
+        <li class="nav-item">
+          <a class="nav-link categories-index" href="/categories">Published</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link categories-trash" href="/categories/trash">Trash</a>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+  
+  <hr class="my-3">
+
+  <%- include('../message.ejs', { alert }) %>
+
+  <div class="row">
+    <div class="col-md-12 text-right">
+      <a href="/categories/create" class="btn btn-primary">Create category</a>
+    </div>
+  </div>
+  <br>
+
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-bordered table-stripped">
+        <thead>
+          <tr>
+            <th><b>Name</b></th>
+            <th><b>Slug</b></th>
+            <th><b>Image</b></th>
+            <th><b>Actions</b></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% categories.data.forEach(v => { %>
+            <tr>
+              <td><%= v.name %></td>
+              <td><%= v.slug %></td>
+              <td>
+                <% if(v.image) { %>
+                  <img src="/public/images/<%= v.image %>" width="48px"/>
+                <% } else { %>
+                  No image
+                <% } %>
+              </td>
+              <td>
+
+                <form 
+                  class="d-inline"
+                  action="/categories/restore/<%= v.id %>"
+                  method="POST"
+                  onsubmit="return confirm('Move this category published?')"
+                  >
+                  <!-- <input 
+                    type="hidden" 
+                    value="DELETE" 
+                    name="_method"> -->
+
+                  <input 
+                    type="submit" 
+                    class="btn btn-success btn-sm" 
+                    value="Restore">
+                  
+                </form>
+                  
+                <form 
+                  class="d-inline"
+                  action="/categories/permanent/<%= v.id %>?_method=DELETE"
+                  method="POST"
+                  onsubmit="return confirm('Delete this category permanently?')"
+                  >
+                  <!-- <input 
+                    type="hidden" 
+                    value="DELETE" 
+                    name="_method"> -->
+
+                  <input 
+                    type="submit" 
+                    class="btn btn-danger btn-sm" 
+                    value="Delete">
+                  
+                </form>
+              </td>
+            </tr>
+        <% }) %>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colSpan="10">
+            <%- include('../pagination.ejs', { books: categories }) %>
+            </td>
+          </tr>
+        </tfoot>
+
+      </table>
+    </div>
+  </div>
+
+<%- include('../templates/footer_global.ejs', { pathName, model: null }) %>
