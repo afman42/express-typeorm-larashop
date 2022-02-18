@@ -5,7 +5,7 @@ import { slugify } from "../utils/helper";
 import { TypePostBook, TypePutBook } from "../types/book";
 import { validationResult } from "express-validator";
 import { Category } from "../entities/Category";
-import { existsSync, stat, unlinkSync } from "fs";
+import { existsSync, unlinkSync } from "fs";
 import { BookCategory } from "../entities/BookCategory";
 
 const getBookWithCountQuery = async (page: number, keyword: string, status: string | null) => {
@@ -87,7 +87,7 @@ const postBook = async (req: Request, res: Response) => {
         book.stock = stock
         book.status = status
         book.slug = slugify(title)
-        book.created_by = 1
+        book.created_by = req.session.user.id
         book.cover = bookCover
         book.categories = modelCategories
         return await getRepository(Book).save(book)
@@ -156,7 +156,7 @@ async function putBook(req: Request, res: Response) {
             }
             book.cover = req.file.filename
         }
-        book.updated_by = 1
+        book.updated_by = req.session.user.id
         book.categories = modelCategories
         return await getRepository(Book).save(book)
     } catch (error) {

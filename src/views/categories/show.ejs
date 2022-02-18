@@ -1,0 +1,24 @@
+<%- include('../templates/header_global.ejs', { title }) %>
+
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-body">
+        <label><b>Category name</b></label><br>
+        <%= model.name %>
+        <br><br>
+
+        <label><b>Category slug</b></label><br>
+        <%= model.slug %>
+        <br><br>
+
+        <label><b>Category image</b></label><br>
+
+        <% if(model.image) { %>
+            <img src="/public/images/<%= model.image %>" width="120px"/>
+        <% } else { %>
+            No image
+        <% } %>
+      </div>
+    </div>
+  </div>
+<%- include('../templates/footer_global.ejs', { pathName: null, model: null }) %>

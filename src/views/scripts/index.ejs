@@ -53,3 +53,7 @@ var c = JSON.parse(response);
 </script>
 
 <% } %>
+
+<% if(pathName == '/categories' || pathName == '/categories/trash') { %>
+    <script src="/public/js/index-categories.js"></script>
+<% } %>
