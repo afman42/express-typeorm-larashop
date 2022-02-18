@@ -25,9 +25,6 @@ async function index(req: Request, res: Response) {
         books = await getBookWithCountQuery(pages,keyword,status)
     }
 
-    console.log(books)
-    console.log(pages)
-    console.log(typeof status !== 'undefined')
     return res.render("books/index",{ books, status, keyword, pathName,alert, title: 'Book List' })
 }
 
@@ -90,8 +87,9 @@ async function trash(req: Request, res: Response){
     const alertMessage = req.flash('alertMessage');
     const alertStatus = req.flash('alertStatus');
     const alert = { message: alertMessage, status: alertStatus }
-    let { keyword } = req.query as any
-    let model = await trashBook(keyword,null,null);
+    let { keyword,page } = req.query as any
+    let pages = typeof page !== 'undefined' ? parseInt(page) : 1;
+    let model = await trashBook(keyword,pages);
     let title = 'Trashed Books';
     let pathName = RouteBook.INDEX 
     // console.log(model)

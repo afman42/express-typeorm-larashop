@@ -173,26 +173,32 @@ async function destroyBook(req: Request, res: Response) {
     return await getRepository(Book).save(book)
 }
 
-const trashBook = async (keyword: string, take: number | null, skip: number | null) => {
-    const takeNumber = take != null ? take : 30
-    const skipNumber = skip != null ? skip : 0
+const trashBook = async (keyword: string,page:number) => {
+    const takeNumber = 5
     const keywordS = keyword ? keyword : '';
+    const pageFirst = (page > 1) ? (page * takeNumber) - takeNumber : 0
+    const previous = page - 1
+    const next = page + 1
 
+    let model = await getRepository(Book).createQueryBuilder('books')
+            .leftJoinAndSelect("books.categories", 'category')
+            .take(takeNumber).skip(pageFirst)
+            .where('books.deleted_at = 1')
 
-    const [result, total] = await getRepository(Book).findAndCount(
-        {
-            relations: ['categories'],
-            where: { title: Like('%' + keywordS + '%'), deleted_at: 1 },
-            take: takeNumber,
-            skip: skipNumber
-        }
-    )
-
-    return {
-        data: result,
-        count: total
+    if (typeof keyword !== 'undefined') { 
+        model = await model.andWhere('books.title like :keyword', { keyword: `%${keywordS}%` })
     }
 
+    let models = await model.getManyAndCount()
+
+    let pageTotal = Math.ceil(models[1] / takeNumber)
+    return {
+        data: models[0],
+        count: pageTotal,
+        page,
+        previous,
+        next,
+    }
 }
 
 async function restoreBook(req: Request, res: Response) {

@@ -112,6 +112,7 @@
           <tr>
             <td colspan="10">
               <!-- {{$books->appends(Request::all())->links()}} -->
+              <%- include('../pagination.ejs', { books: model }) %>
             </td>
           </tr>
         </tfoot>

@@ -11,8 +11,8 @@ export default class CreateData implements Seeder {
         .insert()
         .into(Book)
         .values([
-            { title: 'ABC', slug: '/ABC', author: 'ABC', description: 'ABC', publisher: 'ABC', cover: "ABC", price: 2.2, views: 1, stock: 1, status: StatusPublish.DRAFT, created_by: 1},
-            { title: 'DEF', slug: '/DEF', author: 'DEF', description: 'DEF', publisher: 'DEF', cover: "DEF", price: 2.2, views: 1, stock: 1, status: StatusPublish.DRAFT, created_by: 1}
+            { title: 'ABC', slug: '/ABC', author: 'ABC', description: 'ABC', publisher: 'ABC', cover: "ABC", price: 2.2, views: 1, stock: 1, status: StatusPublish.DRAFT, created_by: 1, deleted_at: 0},
+            { title: 'DEF', slug: '/DEF', author: 'DEF', description: 'DEF', publisher: 'DEF', cover: "DEF", price: 2.2, views: 1, stock: 1, status: StatusPublish.DRAFT, created_by: 1, deleted_at: 0}
         ]).execute()
     
     await connection.createQueryBuilder()

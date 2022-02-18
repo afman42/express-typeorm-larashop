@@ -14,8 +14,13 @@ export class User1644386654465 implements MigrationInterface {
                     generationStrategy: 'increment'
                 },
                 {
+                    name: 'name',
+                    type: 'varchar'
+                },
+                {
                     name: 'username',
                     type: 'varchar',
+                    isUnique: true
                 },
                 {
                     name: 'roles',
@@ -34,6 +39,7 @@ export class User1644386654465 implements MigrationInterface {
                 {
                     name: 'avatar',
                     type: 'varchar',
+                    isNullable: true
                 },
                 {
                     name: 'status',

@@ -9,9 +9,11 @@ import methodOverride from 'method-override'
 import flash from 'connect-flash'
 import session from 'express-session'
 import createError from 'http-errors'
-import { routerAuth, routerBook, routerHome } from './routes'
+import { routerAuth, routerBook } from './routes'
 import trim from './middleware/trim'
 import { categoryAjaxSearch } from './controllers/category.controller'
+import { index as Homeindex } from './controllers/home.controller'
+import isLogin from './middleware/auth'
 
 dotenv.config()
 
@@ -45,6 +47,7 @@ app.use((req,res,next) => {
   next()
 })
 app.use('/',routerAuth)
+app.get('/home',isLogin,Homeindex)
 app.use('/book',routerBook)
 app.get('/ajax/categories/search', categoryAjaxSearch)
 app.use(function(_req, _res, next) {

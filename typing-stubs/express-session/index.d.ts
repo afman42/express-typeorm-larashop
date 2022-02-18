@@ -13,5 +13,8 @@ interface TypePostBook {
 declare module "express-session" {
     interface Session {
         errors: any;
+        user: {
+            id: number
+        }
     }
 } 

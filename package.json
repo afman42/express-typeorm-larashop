@@ -3,6 +3,7 @@
    "version": "0.0.1",
    "description": "Awesome project developed with TypeORM.",
    "devDependencies": {
+      "@types/bcrypt": "^5.0.0",
       "@types/http-errors": "^1.8.2",
       "@types/morgan": "^1.9.3",
       "@types/multer": "^1.4.7",
@@ -16,6 +17,7 @@
       "@types/ejs": "^3.1.0",
       "@types/express-session": "^1.17.4",
       "@types/method-override": "0.0.32",
+      "bcrypt": "^5.0.1",
       "connect-flash": "^0.1.1",
       "cookie-parser": "^1.4.6",
       "dotenv": "^16.0.0",
@@ -36,6 +38,6 @@
    "scripts": {
       "start": "nodemon src/index.ts",
       "typeorm": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm",
-      "seed:run": "./node_modules/.bin/ts-node ./node_modules/typeorm-seeding/dist/cli.js seed"
+      "seed:run": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm-seeding seed"
    }
 }

@@ -1,0 +1,16 @@
+
+<nav>
+    <ul class="pagination justify-content-center">
+        <li class="page-item">
+            <a class="page-link" <% if(books.page > 1){ %> href='?page=<%= books.previous %><% if(typeof status !== 'undefined') { %>&status=<%= status %> <% } %><% if(typeof keyword !== 'undefined') { %>&keyword=<%= keyword %> <% } %>' <% } %>>Previous</a>
+        </li>
+        <% for(let x=1; x<= books.count; x++){ %> 
+            <li class="page-item <% if(books.page == x) { %> active <% } %>"><a class="page-link" 
+                href="?page=<%= x %><% if(typeof status !== 'undefined') { %>&status=<%= status %> <% } %><% if(typeof keyword !== 'undefined') { %>&keyword=<%= keyword %> <% } %>"
+            ><%= x %></a></li>
+        <% } %>
+        <li class="page-item">
+        <a  class="page-link" <% if(books.page < books.count) { %> href='?page=<%= books.next %><% if(typeof status !== 'undefined') { %>&status=<%= status %> <% } %><% if(typeof keyword !== 'undefined') { %>&keyword=<%= keyword %> <% } %>' <% } %>>Next</a>
+        </li>
+    </ul>
+</nav>
