@@ -1,0 +1,82 @@
+<%- include('../templates/header_global.ejs', { title }) %>
+  <!-- <form action="{{route('orders.index')}}"> -->
+    <div class="row">
+      <div class="col-md-5">
+        <input value="<%= buyer_email %>" name="buyer_email" type="text" class="form-control" placeholder="Search by buyer email">
+      </div>
+      <div class="col-md-2">
+        <select name="status" class="form-control" id="status">
+          <option value="">ANY</option>
+          <option <%= order.status == "SUBMIT" ? selected : %> value="SUBMIT">SUBMIT</option>
+          <option <%= order.status == "PROCESS" ? selected : %> value="PROCESS">PROCESS</option>
+          <option <%= order.status == "FINISH" ? selected : %> value="FINISH">FINISH</option>
+          <option <%= order.status == "CANCEL" ? selected : %> value="CANCEL">CANCEL</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <input type="submit" value="Filter" class="btn btn-primary">
+      </div>
+    </div>
+  <!-- </form> -->
+
+  <hr class="my-3">
+
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-stripped table-bordered">
+        <thead>
+          <tr>
+            <th>Invoice number</th>
+            <th><b>Status</b></th>
+            <th><b>Buyer</b></th>
+            <th><b>Total quantity</b></th>
+            <th><b>Order date</b></th>
+            <th><b>Total price</b></th>
+            <th><b>Actions</b></th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- @foreach($orders as $order) -->
+          <% orders.data.forEach(v => { %>
+            <tr>
+              <td><%= v.invoice_number %></td>
+              <td>
+                <!-- @if($order->status == "SUBMIT") -->
+                <% if(v.status == 'SUBMIT'){ %>
+                  <span class="badge bg-warning text-light"><%= v.status %></span>
+                <!-- @elseif($order->status == "PROCESS") -->
+                <% } else if(v.status == 'PROCESS'){ %>
+                  <span class="badge bg-info text-light"><%= v.status %></span>
+                <!-- @elseif($order->status == "FINISH") -->
+                <% } else if(v.status == 'FINISH'){ %>
+                  <span class="badge bg-success text-light"><%= v.status %></span>
+                <!-- @elseif($order->status == "CANCEL") -->
+                <% } else if(v.status == 'CANCEL'){ %>
+                  <span class="badge bg-dark text-light"><%= v.status %></span>
+                <!-- @endif -->
+                <% } %>
+              </td>
+              <td>
+                <%= order.user.name %> <br>
+                <small><%= order.user.email %></small>
+              </td>
+              <td><%= v.totalQuantity %> pc (s)</td>
+              <td><%= v.created_at %></td>
+              <td><%= v.total_price %></td>
+              <td>
+                  <a href="/order/edit/<%= v.id %>" class="btn btn-info btn-sm"> Edit</a>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="10">
+              <%- include('../pagination.ejs', { books: orders }) %>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+<%- include('../templates/footer_global.ejs', { pathName: null, model: null }) %>

@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { existsSync, unlinkSync } from "fs";
-import { title } from "process";
 import { getRepository, Like } from "typeorm";
 import { Category } from '../entities/Category'
 import { TypePostCategory, TypePutCategory } from "../types/category";
@@ -68,7 +67,7 @@ const postCategory = async (req: Request, res: Response) => {
         category.image = imageCover
         category.slug = slugify(name)
         category.deleted_at = 0
-        category.created_by = 1
+        category.created_by = req.session.user.id
 
         return await getRepository(Category).save(category)
     } catch (error) {
@@ -100,7 +99,7 @@ const putCategory = async (req: Request, res: Response) => {
         const category = await getRepository(Category).findOneOrFail(id)
         category.name = name
         category.slug = slugify(slug)
-        category.updated_by = 1
+        category.updated_by = req.session.user.id
         if (req.file != undefined) {
             if (category.image && existsSync(`./public/images/${category.image}`)) {
                 unlinkSync(`public/images/${category.image}`)
