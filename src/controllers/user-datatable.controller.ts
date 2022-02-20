@@ -1,18 +1,36 @@
-// <?php
+import { Request, Response } from "express";
+import { getRepository } from "typeorm";
+import { User } from "../entities/User";
+import { datatableUser } from "../service/datatable.service";
 
-// namespace App\Http\Controllers;
+const users = async (req: Request, res: Response) => {
+    let title = 'Datatable Index'
+    let pathName = '/datatable/users'
+    return res.render('datatables/users', { title, pathName })
+}
 
-// use Illuminate\Http\Request;
+const data = async (req: Request, res: Response) => {
+    let tables: string = "users";
+    // let cari: Array<string> = ['judul'];
+    let cari: Array<string> = ['username'];
+    let isWhere: Array<string> | null = null;
+    // let isWhere = 'artikel.deleted_at IS NULL';
+    res.setHeader('Content-Type','application/json')
+    let model = await datatableUser(req,res,tables,cari,isWhere)
+    console.log(model)
+    return model
+}
 
-// use Yajra\Datatables\Datatables;
+const test = async (req: Request, res: Response) => {
+    const user = await getRepository(User).query(`SELECT COUNT(*) as total FROM users`)
+    return res.json(user)
+}
 
-// use App\User;
-
-// class UserDatatablesController extends Controller
-// {
-//     public function index(){
-//         return view('datatables/users');
-//     }
+export {
+    users,
+    data,
+    test 
+}
 
 //     public function data(){
 //         return Datatables::of(User::query())

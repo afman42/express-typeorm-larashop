@@ -57,3 +57,34 @@ var c = JSON.parse(response);
 <% if(pathName == '/categories' || pathName == '/categories/trash') { %>
     <script src="/public/js/index-categories.js"></script>
 <% } %>
+
+<% if(pathName == '/datatable/users') { %>
+  <!-- jQuery -->
+  <script src="//code.jquery.com/jquery.js"></script>
+  <!-- DataTables -->
+  <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+  <!-- Bootstrap JavaScript -->
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  <!-- App scripts -->
+
+  <script>
+    $(function() {
+        $('#users-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+              url:'/datatable/data',
+              method: 'get',
+              data: 'json'
+            },
+            columns: [
+                { data: 'name', name: 'name' },
+                { data: 'email', name: 'email' },
+                { data: 'username', name: 'username' },
+                { data: 'status', name: 'status' },
+                { data: 'action', name: 'action', orderable: false, searchable: false}
+            ]
+        });
+    });
+  </script>
+<% } %>

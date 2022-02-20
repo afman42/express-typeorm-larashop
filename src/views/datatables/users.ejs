@@ -1,0 +1,14 @@
+<%- include('../templates/header_global.ejs', { title }) %>
+
+<table class="table table-bordered" id="users-table">
+  <thead>
+      <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Username</th>
+          <th>Status</th>
+          <th>Actions</th>
+      </tr>
+  </thead>
+</table>  
+<%- include('../templates/footer_global.ejs', { pathName, model: null }) %>

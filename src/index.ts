@@ -9,7 +9,7 @@ import methodOverride from 'method-override'
 import flash from 'connect-flash'
 import session from 'express-session'
 import createError from 'http-errors'
-import { routerAuth, routerBook, routerCategories, routerUser } from './routes'
+import { routerAuth, routerBook, routerCategories, routerDatatable, routerUser } from './routes'
 import trim from './middleware/trim'
 import { categoryAjaxSearch } from './controllers/category.controller'
 import { index as Homeindex } from './controllers/home.controller'
@@ -50,6 +50,7 @@ app.use('/',routerAuth)
 app.get('/home',isLogin,Homeindex)
 app.use('/book',routerBook)
 app.use('/users',routerUser)
+app.use('/datatable', routerDatatable)
 app.use('/categories',routerCategories)
 app.get('/ajax/categories/search', categoryAjaxSearch)
 app.use(function(_req, _res, next) {
