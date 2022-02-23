@@ -20,7 +20,7 @@ dotenv.config()
 // import trim from './middleware/trim'
 
 const app: Application = express()
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 8000
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -72,7 +72,7 @@ app.listen(PORT, async () => {
   console.log(`Server running at http://localhost:${PORT}`)
 
   try {
-    await createConnection()
+    await createConnection('default')
     console.log('Database connected!')
   } catch (err) {
     console.log(err)
