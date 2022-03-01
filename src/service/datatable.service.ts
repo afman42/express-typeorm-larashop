@@ -70,7 +70,7 @@ const datatableUser = async (req: Request, res: Response, tables: string, cari: 
         // console.log(typeData.columns);
         // let requestOrder =  request.input(`columns.${requestOrderField}.data`);
         // let requestOrder = typeData.columns.order[0].column.data
-        let requestOrder = typeData.columns[0].data
+        let requestOrder = typeData.columns[typeData.order[0].column].data
         // $order = " ORDER BY ".$_POST['columns'][$order_field]['data']." ".$order_ascdesc;
         var sqlData: any;
         if (isWhere != null) {
