@@ -72,17 +72,20 @@ var c = JSON.parse(response);
         $('#users-table').DataTable({
             processing: true,
             serverSide: true,
+            ordering: true,
+            order: [[ 0, 'asc' ]],
             ajax: {
               url:'/datatable/data',
-              method: 'get',
-              data: 'json'
+              type: 'get',
             },
             columns: [
-                { data: 'name', name: 'name' },
-                { data: 'email', name: 'email' },
-                { data: 'username', name: 'username' },
-                { data: 'status', name: 'status' },
-                { data: 'action', name: 'action', orderable: false, searchable: false}
+                { data: 'name'},
+                { data: 'email'},
+                { data: 'username'},
+                { data: 'status'},
+                { data: 'id', render: function (data,type,row,meta) {
+                    return '<a class="btn btn-primary">Show</a>';
+                }}
             ]
         });
     });

@@ -34,6 +34,7 @@ interface TypeDatatable {
 const datatableUser = async (req: Request, res: Response, tables: string, cari: Array<string>, isWhere: Array<string> | null) => {
     try {
         var typeData = req.query as any
+        // var typeData = req.body as any
         var resp = res
         let requestSearch = typeData.search.value
 
@@ -65,8 +66,11 @@ const datatableUser = async (req: Request, res: Response, tables: string, cari: 
 
         // Untuk menentukan order by "ASC" atau "DESC"
         let requestAscdesc = typeData.order[0].dir
+        // console.log(typeData.order[0]);
+        // console.log(typeData.columns);
         // let requestOrder =  request.input(`columns.${requestOrderField}.data`);
-        let requestOrder = typeData.columns.order[encodeURIComponent(0)].column.data
+        // let requestOrder = typeData.columns.order[0].column.data
+        let requestOrder = typeData.columns[0].data
         // $order = " ORDER BY ".$_POST['columns'][$order_field]['data']." ".$order_ascdesc;
         var sqlData: any;
         if (isWhere != null) {

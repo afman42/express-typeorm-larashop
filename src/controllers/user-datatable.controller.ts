@@ -12,7 +12,7 @@ const users = async (req: Request, res: Response) => {
 const data = async (req: Request, res: Response) => {
     let tables: string = "users";
     // let cari: Array<string> = ['judul'];
-    let cari: Array<string> = ['username'];
+    let cari: Array<string> = ['name'];
     let isWhere: Array<string> | null = null;
     // let isWhere = 'artikel.deleted_at IS NULL';
     res.setHeader('Content-Type','application/json')
